@@ -1,6 +1,12 @@
+require('dotenv').config()
+
 const express = require('express')
+const connectToDatabase=require('./Databse/')
 const app = express()
-// for the get response and request //
+
+connectToDatabase()
+
+
 app.get("/",(req,res)=>{
     console.log(req)
     res.status(200).json({
@@ -8,7 +14,14 @@ app.get("/",(req,res)=>{
     })
 })
 
+app.get("/about",(req,res)=>{
+    res.status(200).json({
+        message:'this is about page'
+    })
+})
 
-app.listen(3000,()=>{
+
+app.listen(process.env.PORT,()=>{
     console.log("Nodejs prject is started")
 })
+
