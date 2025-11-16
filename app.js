@@ -5,6 +5,8 @@ const connectToDatabase=require('./Databse/')
 const app = express()
 app.use(express.json())
 
+const Blog= require('./model/userModel')
+
 connectToDatabase()
 
 
@@ -15,18 +17,32 @@ app.get("/",(req,res)=>{
     })
 })
 
+
+// about page api//
+
 app.get("/about",(req,res)=>{
     res.status(200).json({
         message:'this is about page'
     })
 })
-
-app.post ("/blog",(req,res)=>{
+// Blog API //
+app.post ("/blog",async (req,res)=>{
     console.log(req.body)
+    const{title,subtitle,description,image}=req.body
+   await Blog.create({
+        title: title,
+        subtitle: subtitle,
+        description:description,
+        image:image
+    })
+
     res.status(200).json({
         message:"this api is hitted "
     })
 })
+
+
+
 
 
 app.listen(process.env.PORT,()=>{
