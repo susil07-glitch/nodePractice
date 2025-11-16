@@ -29,6 +29,11 @@ app.get("/about",(req,res)=>{
 app.post ("/blog",async (req,res)=>{
     console.log(req.body)
     const{title,subtitle,description,image}=req.body
+    if(!title ||!susbtitle || !description ||!image){
+        res.status(400).json({
+            "message":"please provide valid imformation "
+        })
+    }
    await Blog.create({
         title: title,
         subtitle: subtitle,
