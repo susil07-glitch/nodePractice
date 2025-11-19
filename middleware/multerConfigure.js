@@ -5,7 +5,7 @@ const multer= require('multer')
         cb(null,'./storage')
     },
     filename: function(req,file,cb){
-        cb(null,'sushil' + file.originalname)
+        cb(null,Date.now()+ file.originalname)
     }
 })
 

@@ -5,6 +5,10 @@ const connectToDatabase=require('./Databse/')
 const app = express()
 app.use(express.json())
 
+const {multer,storage}=require('./middleware/multerConfigure')
+
+const upload= multer({ storage : storage})
+
 const Blog= require('./model/userModel')
 
 connectToDatabase()
@@ -26,10 +30,9 @@ app.get("/about",(req,res)=>{
     })
 })
 // Blog API //
-app.post ("/blog",async (req,res)=>{
-    console.log(req.body)
+app.post ("/blog",upload.single('image'),async  (req,res)=>{
     const{title,subtitle,description,image}=req.body
-    if(!title ||!susbtitle || !description ||!image){
+    if(!title ||!subtitle || !description ||!image){
         res.status(400).json({
             "message":"please provide valid imformation "
         })
