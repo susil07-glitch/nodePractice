@@ -3,6 +3,7 @@ require('dotenv').config()
 const express = require('express')
 const connectToDatabase=require('./Databse/')
 const app = express()
+
 app.use(express.json())
 
 const {multer,storage}=require('./middleware/multerConfigure')
@@ -30,23 +31,32 @@ app.get("/about",(req,res)=>{
     })
 })
 // Blog API //
-app.post ("/blog",upload.single('image'),async  (req,res)=>{
-    const{title,subtitle,description,image}=req.body
-    if(!title ||!subtitle || !description ||!image){
+app.post("/blog",upload.single("image"), async (req,res)=>{
+    const{title,subtitle,description}=req.body
+    const filename =req.file.filename
+    console.log(req.body)
+    console.log(req.file)
+    if(!title ||!subtitle || !description){ // for validation purpose // 
         res.status(400).json({
             "message":"please provide valid imformation "
         })
-    }
-   await Blog.create({
+    }else {
+        await Blog.create({
         title: title,
         subtitle: subtitle,
         description:description,
-        image:image
+        image: filename 
+       
     })
 
-    res.status(200).json({
+    }
+   
+   
+
+         res.status(200).json({
         message:"this api is hitted "
     })
+
 })
 
 
