@@ -11,9 +11,11 @@ const {multer,storage}=require('./middleware/multerConfigure')
 const upload= multer({ storage : storage})
 
 const Blog= require('./model/userModel')
+app.use(express.static('./storage'))
 
 connectToDatabase()
 
+// Home page api //
 
 app.get("/",(req,res)=>{
     console.log(req)
@@ -30,12 +32,15 @@ app.get("/about",(req,res)=>{
         message:'this is about page'
     })
 })
-// Blog API //
+
+
+// to update blogs  //
+
+
 app.post("/blog",upload.single("image"), async (req,res)=>{
     const{title,subtitle,description}=req.body
     const filename =req.file.filename
-    console.log(req.body)
-    console.log(req.file)
+    
     if(!title ||!subtitle || !description){ // for validation purpose // 
         res.status(400).json({
             "message":"please provide valid imformation "
@@ -60,8 +65,24 @@ app.post("/blog",upload.single("image"), async (req,res)=>{
 })
 
 
+// to featch all data from the database // 
 
 
+app.get("/blog" ,async (req,res)=>{
+   const blogs= await Blog.find()
+
+   res.status(200).json({
+    message :"Blogs featch successfully " ,
+    data: blogs
+   })
+
+ 
+})
+
+
+
+
+// to operate in the 3000 port number //
 
 app.listen(process.env.PORT,()=>{
     console.log("Nodejs prject is started")
