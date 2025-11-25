@@ -7,7 +7,7 @@ const multer= require('multer')
         console.log("milter is working ")
     },
     filename: function(req,file,cb){
-        cb(null,Date.now()+ file.originalname)
+        cb(null,file.originalname)
     }
 })
 
