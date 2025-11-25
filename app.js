@@ -145,7 +145,7 @@ app.patch("/blog/:id",upload.single('image'),async(req,res)=>{
         imageName=req.file.fileName
         const blog=await Blog.findById(id)
 
-        const imageName = blog.image
+        const oldimageName = blog.image
    
 
     fs.unlink(`storage/${imageName}`,(err)=>{
